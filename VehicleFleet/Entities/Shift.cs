@@ -1,20 +1,19 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VehicleFleet.Entities
 {
     public class Shift
     {
-        public DateTime Start { get; init; } = DateTime.Now.AddDays(-1.0);
-        public DateTime End { get; init; } = DateTime.Now;
-        public Vehicle Vehicle { get; }
-        public Driver Driver { get; }
-        public double Kilometrage { get; init; }
-        public double FuelConsumedLiters => Vehicle.FuelConsumptionLitersPer100Km / 100.0 * Kilometrage;
+        public int Id { get; init; }
+        public DateTime Start { get; init; }
+        public DateTime End { get; init; }
+        public Vehicle Vehicle { get; init; }
+        public Driver Driver { get; init; }
 
-        public Shift(Vehicle vehicle, Driver driver)
-        {
-            Vehicle = vehicle;
-            Driver = driver;
-        }
+        [Range(0.0, double.MaxValue)] 
+        public double Kilometrage { get; init; }
+
+        public double FuelConsumedLiters => Vehicle.FuelConsumptionLitersPer100Km / 100.0 * Kilometrage;
     }
 }
