@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleFleet", "VehicleFleet\VehicleFleet.csproj", "{07262C3D-BF10-4E6A-B99F-26E3766550BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleFleet.Test", "VehicleFleet.Test\VehicleFleet.Test.csproj", "{828A77BF-C2C1-48EB-A07A-CE64E676E727}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{07262C3D-BF10-4E6A-B99F-26E3766550BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07262C3D-BF10-4E6A-B99F-26E3766550BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07262C3D-BF10-4E6A-B99F-26E3766550BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{828A77BF-C2C1-48EB-A07A-CE64E676E727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{828A77BF-C2C1-48EB-A07A-CE64E676E727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{828A77BF-C2C1-48EB-A07A-CE64E676E727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{828A77BF-C2C1-48EB-A07A-CE64E676E727}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
