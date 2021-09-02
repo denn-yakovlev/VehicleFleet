@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using VehicleFleet.Database;
+using VehicleFleet.Services;
+using VehicleFleet.Services.FuelSpendingCalculator;
 
 namespace VehicleFleet
 {
@@ -23,6 +27,22 @@ namespace VehicleFleet
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+            services.AddDbContext<ApplicationDbContext>();
+            services.AddSingleton(_ => new ExpenseContext
+            {
+                DepreciationCoefficient = 0.05,
+                InsuranceCoefficient = 0.1,
+                MaintenanceCoefficient = 0.025,
+                FuelPriceRoublesPerLiter = 40.0
+            });
+            services.TryAddEnumerable(new[]
+            {
+                ServiceDescriptor.Scoped<IExpenseCalculator, FuelExpenseCalculator>(), 
+                ServiceDescriptor.Scoped<IExpenseCalculator, DepreciationExpenseCalculator>(), 
+                ServiceDescriptor.Scoped<IExpenseCalculator, MaintenanceExpenseCalculator>(), 
+                ServiceDescriptor.Scoped<IExpenseCalculator, InsuranceExpenseCalculator>(), 
+            });
+            services.AddScoped<VehicleBookCostCalculator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

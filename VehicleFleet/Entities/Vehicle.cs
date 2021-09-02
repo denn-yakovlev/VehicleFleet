@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace VehicleFleet.Entities
 {
@@ -38,6 +39,15 @@ namespace VehicleFleet.Entities
         public double FuelConsumptionLitersPer100Km { get; set; }
 
         public string Name => $"{Manufacturer} {ModelName}";
+
+        public int YearsInUse(int yearAt)
+        {
+            if (yearAt < ProductionYear)
+            {
+                throw new ArgumentException();
+            }
+            return yearAt - ProductionYear;
+        }
     }
 
     public enum GearboxType

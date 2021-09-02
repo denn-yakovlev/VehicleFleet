@@ -10,6 +10,10 @@ namespace VehicleFleet.Database
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Driver> Drivers { get; set; }
 
+        public VehicleFleetDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connection = new NpgsqlConnection("Host=localhost;Database=vehicle_fleet;Username=postgres;Password=password");
