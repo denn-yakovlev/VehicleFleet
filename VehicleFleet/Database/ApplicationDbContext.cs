@@ -4,13 +4,13 @@ using VehicleFleet.Entities;
 
 namespace VehicleFleet.Database
 {
-    public class VehicleFleetDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Driver> Drivers { get; set; }
 
-        public VehicleFleetDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
 

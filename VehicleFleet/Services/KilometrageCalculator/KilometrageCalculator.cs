@@ -7,9 +7,9 @@ namespace VehicleFleet.Services
 {
     public class KilometrageCalculator : IKilometrageCalculator
     {
-        private readonly VehicleFleetDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
-        public KilometrageCalculator(VehicleFleetDbContext dbContext)
+        public KilometrageCalculator(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

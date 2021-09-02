@@ -8,9 +8,9 @@ namespace VehicleFleet.Services.FuelSpendingCalculator
 {
     public class FuelExpenseCalculator : ExpenseCalculator
     {
-        private readonly VehicleFleetDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
-        public FuelExpenseCalculator(ExpenseContext ctx, VehicleFleetDbContext dbContext) : base(ctx)
+        public FuelExpenseCalculator(ExpenseContext ctx, ApplicationDbContext dbContext) : base(ctx)
         {
             _dbContext = dbContext;
         }

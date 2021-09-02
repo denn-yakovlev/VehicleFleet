@@ -7,11 +7,11 @@ namespace VehicleFleet.Services
 {
     public class VehicleBookCostCalculator
     {
-        private readonly VehicleFleetDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IEnumerable<IExpenseCalculator> _expenseCalculators;
 
         public VehicleBookCostCalculator(
-            VehicleFleetDbContext dbContext, 
+            ApplicationDbContext dbContext, 
             IEnumerable<IExpenseCalculator> expenseCalculators
         ) {
             _dbContext = dbContext;
