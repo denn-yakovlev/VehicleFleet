@@ -27,13 +27,13 @@ namespace VehicleFleet.Entities
         [Range(0, int.MaxValue)]
         public int InitialCostRoubles { get; init; }
         
-        [Range(0, int.MaxValue)]
-        public int CurrentCostRoubles { get; set; }
+        // [Range(0, int.MaxValue)]
+        // public int CurrentCostRoubles { get; set; }
         
         public GearboxType GearboxType { get; init; }
         
-        [Range(0.0, double.MaxValue)]
-        public double Kilometrage { get; init; }
+        // [Range(0.0, double.MaxValue)]
+        // public double Kilometrage { get; init; }
 
         [Range(0.0, double.MaxValue)]
         public double FuelConsumptionLitersPer100Km { get; set; }
