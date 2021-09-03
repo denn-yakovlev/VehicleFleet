@@ -1,0 +1,68 @@
+﻿<h1> Водители </h1>
+
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+  <tr>
+    <th>Полное имя</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let driver of drivers">
+    <td (click)="openDriverInfo(driverInfo, driver)" style="cursor:pointer">{{driver.fullName}}</td>
+  </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-outline-primary" (click)="openCreateModal(createDriverModal)">Создать</button>
+
+<ng-template #driverInfo>
+  <div class="modal-header">
+    <h4 class="modal-title">Водитель</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeDriverInfo()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+          <label for="fullName">Полное имя</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="fullName" [readOnly]="!isUpdate" name="fullName" [(ngModel)]="currentDriver.fullName">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div *ngIf="isUpdate; then ifUpdateBlock else ifNotUpdateBlock"></div>
+    <ng-template #ifUpdateBlock>
+      <button type="button" class="btn btn-outline-primary" (click)="saveChanges()">Сохранить</button>
+      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = false)">Отменить</button>
+    </ng-template>
+    <ng-template #ifNotUpdateBlock>
+      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = true)">Редактировать</button>
+    </ng-template>
+    <button type="button" class="btn btn-outline-danger" (click)="delete()">Удалить</button>
+  </div>
+</ng-template>
+
+<ng-template #createDriverModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Новый водитель</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="newFullName">Полное имя</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="newFullName" name="fullName" [(ngModel)]="newDriver.fullName">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="add()">Создать</button>
+  </div>
+</ng-template>
+
