@@ -9,8 +9,8 @@ namespace VehicleFleet.DTO
         public int Id { get; init; }
         public DateTime Start { get; init; }
         public DateTime End { get; init; }
-        public string VehicleName { get; init; }
-        public string DriverFullName { get; init; }
+        public VehicleDto Vehicle { get; init; }
+        public DriverDto Driver { get; init; }
         public double Kilometrage { get; init; }
         public double FuelConsumedLiters { get; init; }
     }
