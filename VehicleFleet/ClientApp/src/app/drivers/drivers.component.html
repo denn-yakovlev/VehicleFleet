@@ -7,8 +7,8 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let driver of drivers">
-    <td (click)="openDriverInfo(driverInfo, driver)" style="cursor:pointer">{{driver.fullName}}</td>
+  <tr *ngFor="let driver of driversList" (click)="openDriverInfo(driverInfo, driver)" style="cursor:pointer">
+    <td> {{driver.fullName}}</td>
   </tr>
   </tbody>
 </table>

@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import {DriversComponent} from "./drivers/drivers.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {ShiftsComponent} from "./shifts/shifts.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    DriversComponent
+    DriversComponent,
+    ShiftsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +32,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'drv', component: DriversComponent },
+      { path: 'drivers', component: DriversComponent },
+      { path: 'shifts', component: ShiftsComponent },
     ])
   ],
   providers: [],

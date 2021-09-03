@@ -1,6 +1,8 @@
 ﻿import {Component, Inject, TemplateRef} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap'
+import {Driver} from "../driver";
+
 
 @Component({
   selector: 'app-drivers',
@@ -11,7 +13,7 @@ export class DriversComponent {
   currentDriver : Driver;
   updateModal: NgbModalRef;
   createModal: NgbModalRef;
-  drivers: Driver[];
+  driversList: Driver[];
   isUpdate : boolean;
   newDriver : Driver;
 
@@ -21,7 +23,7 @@ export class DriversComponent {
     public modalService: NgbModal
   ) {
     http.get<Driver[]>(baseUrl + 'api/driver').subscribe(result => {
-      this.drivers = result;
+      this.driversList = result;
     }, error => console.error(error));
   }
 
@@ -48,7 +50,7 @@ export class DriversComponent {
   delete() {
     this.http.delete(this.baseUrl + `api/driver/${this.currentDriver.id}`).subscribe(
       value => {
-        delete this.drivers[this.drivers.indexOf(this.currentDriver)];
+        delete this.driversList[this.driversList.indexOf(this.currentDriver)];
         this.closeDriverInfo();
       }, error=>console.log(error)
     );
@@ -62,7 +64,7 @@ export class DriversComponent {
   add() {
     this.http.post(this.baseUrl + 'api/driver', this.newDriver).subscribe(
       value => {
-        this.drivers.push(this.newDriver)
+        this.driversList.push(this.newDriver)
         this.createModal.close();
         this.newDriver = null;
       }, error=>console.log(error)
@@ -71,7 +73,3 @@ export class DriversComponent {
   }
 }
 
-export class Driver {
-  id : number;
-  fullName : string;
-}
