@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using VehicleFleet.Database;
+using VehicleFleet.DTO;
+using VehicleFleet.Entities;
 using VehicleFleet.Services;
 using VehicleFleet.Services.FuelSpendingCalculator;
 
@@ -43,6 +46,17 @@ namespace VehicleFleet
                 ServiceDescriptor.Scoped<IExpenseCalculator, InsuranceExpenseCalculator>(), 
             });
             services.AddScoped<VehicleBookCostCalculator>();
+            var mapperCfg = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Driver, DriverDto>();
+                cfg.CreateMap<DriverDto, Driver>();
+                cfg.CreateMap<Shift, ShiftDto>();
+                cfg.CreateMap<ShiftDto, Shift>();
+                cfg.CreateMap<Vehicle, VehicleDto>();
+                cfg.CreateMap<VehicleDto, Vehicle>();
+            });
+            var mapper = mapperCfg.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
