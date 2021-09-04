@@ -13,7 +13,7 @@ namespace VehicleFleet.DTO
         public int EnginePowerHp { get; set; }
         public double EngineVolumeLiters { get; set; }
         public int InitialCostRoubles { get; set; }
-        public int CurrentCostRoubles { get; set; }
+        // public int CurrentCostRoubles { get; set; }
         public GearboxType GearboxType { get; set; }
         public double Kilometrage { get; set; }
         public double FuelConsumptionLitersPer100Km { get; set; }

@@ -41,9 +41,9 @@ namespace VehicleFleet
             });
             services.AddSingleton(_ => new ExpenseContext
             {
-                DepreciationCoefficient = 0.05,
-                InsuranceCoefficient = 0.1,
-                MaintenanceCoefficient = 0.025,
+                DepreciationCoefficient = 0.003,
+                InsuranceCoefficient = 0.004,
+                MaintenanceCoefficient = 0.0025,
                 FuelPriceRoublesPerLiter = 40.0
             });
             services.TryAddEnumerable(new[]
@@ -53,21 +53,13 @@ namespace VehicleFleet
                 ServiceDescriptor.Scoped<IExpenseCalculator, MaintenanceExpenseCalculator>(), 
                 ServiceDescriptor.Scoped<IExpenseCalculator, InsuranceExpenseCalculator>(), 
             });
+            services.AddScoped<IKilometrageCalculator, KilometrageCalculator>();
             services.AddScoped<VehicleBookCostCalculator>();
-            var mapperCfg = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Driver, DriverDto>();
-                cfg.CreateMap<DriverDto, Driver>();
-                cfg.CreateMap<Shift, ShiftDto>();
-                cfg.CreateMap<ShiftDto, Shift>();
-                cfg.CreateMap<Vehicle, VehicleDto>();
-                cfg.CreateMap<VehicleDto, Vehicle>();
-            });
-            var mapper = mapperCfg.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddSingleton(CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -109,6 +101,20 @@ namespace VehicleFleet
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+        private static IMapper CreateMapper()
+        {
+            var mapperCfg = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Driver, DriverDto>();
+                cfg.CreateMap<DriverDto, Driver>();
+                cfg.CreateMap<Shift, ShiftDto>();
+                cfg.CreateMap<ShiftDto, Shift>();
+                cfg.CreateMap<Vehicle, VehicleDto>();
+                cfg.CreateMap<VehicleDto, Vehicle>();
+            });
+            var mapper = mapperCfg.CreateMapper();
+            return mapper;
         }
     }
 }

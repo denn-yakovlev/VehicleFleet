@@ -19,9 +19,10 @@ namespace VehicleFleet.Services.FuelSpendingCalculator
         {
             var yearBegin = new DateTime(year, 1, 1);
             var yearEnd = new DateTime(year, 12, 31);
-            var fuelConsumedInYear = _dbContext.Shifts.AsNoTracking()
+            var shiftsInYear = _dbContext.Shifts.AsNoTracking()
                 .Where(shift => shift.Start >= yearBegin && shift.Start <= yearEnd)
-                .Sum(shift => shift.FuelConsumedLiters);
+                .ToList();
+            var fuelConsumedInYear = shiftsInYear.Sum(shift => shift.FuelConsumedLiters);
             return fuelConsumedInYear * _ctx.FuelPriceRoublesPerLiter;
         }
     }

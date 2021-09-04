@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VehicleFleet.Database;
 using VehicleFleet.DTO;
 using VehicleFleet.Entities;
@@ -10,7 +12,7 @@ using VehicleFleet.Services;
 namespace VehicleFleet.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class VehicleController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -31,10 +33,49 @@ namespace VehicleFleet.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var dtos = _dbContext.Vehicles.Select(ToVehicleDto);
+            var vehicles = await _dbContext.Vehicles.ToListAsync();
+            var dtos = vehicles.Select(ToVehicleDto);
             return Json(dtos.ToList());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var entity = await _dbContext.Vehicles.FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Vehicles.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return NoContent();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Add(VehicleDto shiftDto)
+        {
+            var entity = _mapper.Map<Vehicle>(shiftDto);
+            _dbContext.Vehicles.Add(entity);
+            await _dbContext.SaveChangesAsync();
+            return Created("api/[controller]", entity);
+        }
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, VehicleDto shiftDto)
+        {
+            var updatedEntity = _mapper.Map<Vehicle>(shiftDto);
+            var entity = await _dbContext.Vehicles.FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Entry(entity).State = EntityState.Detached;
+            _dbContext.Vehicles.Add(updatedEntity);
+            _dbContext.Entry(updatedEntity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return Ok();
         }
 
         private VehicleDto ToVehicleDto(Vehicle vehicle)
@@ -47,17 +88,6 @@ namespace VehicleFleet.Controllers
                 DateTime.Now.AddYears(-1).Year
             );
             return vehicleDto;
-        }
-
-        [HttpDelete]
-        [Route("delete/{id:int}")]
-        public IActionResult Delete(int id)
-        {
-            var entity = new Vehicle {Id = id};
-            _dbContext.Attach(entity);
-            _dbContext.Remove(entity);
-            _dbContext.SaveChanges();
-            return Ok();
         }
     }
 }
