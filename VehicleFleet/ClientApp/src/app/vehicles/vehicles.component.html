@@ -1,0 +1,104 @@
+﻿<h1> Автомобили </h1>
+
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+  <tr>
+    <th>Автомобиль</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let vehicle of vehiclesList" (click)="openVehicleInfo(vehicleInfo, vehicle)" style="cursor:pointer">
+    <td> {{vehicle.name}}</td>
+  </tr>
+  </tbody>
+</table>
+<!--<button type="button" class="btn btn-outline-primary" (click)="openCreateModal(createShiftModal)">Создать</button>-->
+
+<ng-template #vehicleInfo>
+  <div class="modal-header">
+    <h4 class="modal-title">Смена</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeVehicleInfo()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="vehicleManufacturer">Производитель</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleManufacturer" [readOnly]="!isUpdate" name="start" [(ngModel)]="currentVehicle.manufacturer">
+        </div>
+        <label for="vehicleModelName">Модель</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleModelName" [readOnly]="!isUpdate" name="end" [(ngModel)]="currentVehicle.modelName">
+        </div>
+        <label for="vehicleProductionYear">Год выпуска</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleProductionYear" [readOnly]="true" name="driver" [(ngModel)]="currentVehicle.productionYear">
+        </div>
+        <label for="vehicleEnginePower">Мощность двигателя (л.с.)</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleEnginePower" [readOnly]="true" name="vehicle" [(ngModel)]="currentVehicle.enginePowerHp">
+        </div>
+        <label for="vehicleEngineVolume">Объём двигателя (л)</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleEngineVolume" [readOnly]="!isUpdate" name="kilometrage" [(ngModel)]="currentVehicle.engineVolumeLiters">
+        </div>
+        <label for="vehicleGearboxType">Тип КПП</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleGearboxType" [readOnly]="true" name="gearboxType" [(ngModel)]="currentVehicle.gearboxType">
+        </div>
+        <label for="vehicleInitialCost">Первоначальная стоимость, руб.</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleInitialCost" [readOnly]="true" name="initialCostRoubles" [(ngModel)]="currentVehicle.initialCostRoubles">
+        </div>
+        <label for="vehicleKilometrage">Пробег (км)</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleKilometrage" [readOnly]="true" name="kilometrage" [(ngModel)]="currentVehicle.kilometrage">
+        </div>
+        <label for="vehicleFuelConsumption">Расход топлива (л/100км)</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="vehicleFuelConsumption" [readOnly]="true" name="fuelConsumptionLitersPer100Km" [(ngModel)]="currentVehicle.fuelConsumptionLitersPer100Km">
+        </div>
+      </div>
+    </form>
+    <div>
+      <canvas baseChart [data]="convertBookCostByYears()" [chartType]="'line'"></canvas>
+<!--      <canvas id="bookCostChartCanvas" width="400" height="400"></canvas>-->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div *ngIf="isUpdate; then ifUpdateBlock else ifNotUpdateBlock"></div>
+    <ng-template #ifUpdateBlock>
+      <button type="button" class="btn btn-outline-primary" (click)="saveChanges()">Сохранить</button>
+      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = false)">Отменить</button>
+    </ng-template>
+    <ng-template #ifNotUpdateBlock>
+      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = true)">Редактировать</button>
+    </ng-template>
+    <button type="button" class="btn btn-outline-danger" (click)="delete()">Удалить</button>
+  </div>
+</ng-template>
+
+<!--<ng-template #createShiftModal let-modal>-->
+<!--  <div class="modal-header">-->
+<!--    <h4 class="modal-title">Новый водитель</h4>-->
+<!--    <button type="button" class="close" aria-label="Close" (click)="modal.close()">-->
+<!--      <span aria-hidden="true">&times;</span>-->
+<!--    </button>-->
+<!--  </div>-->
+<!--  <div class="modal-body">-->
+<!--    <form>-->
+<!--      <div class="form-group">-->
+<!--        <label for="newFullName">Полное имя</label>-->
+<!--        <div class="input-group">-->
+<!--          <input class="form-control" type="text" id="newFullName" name="fullName" [(ngModel)]="newShift.fullName">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--  <div class="modal-footer">-->
+<!--    <button type="button" class="btn btn-outline-primary" (click)="add()">Создать</button>-->
+<!--  </div>-->
+<!--</ng-template>-->
+
