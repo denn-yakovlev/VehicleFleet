@@ -9,12 +9,13 @@ import {Shift} from "../shift";
 })
 export class ShiftsComponent {
 
-  currentShift : Shift;
+  displayedShift: Shift;
+  currentShift: Shift;
   updateModal: NgbModalRef;
   createModal: NgbModalRef;
   shiftsList: Shift[];
-  isUpdate : boolean;
-  newShift : Shift;
+  isUpdate: boolean;
+  newShift: Shift;
 
   constructor(
     @Inject('BASE_URL') private baseUrl: string,
@@ -29,29 +30,31 @@ export class ShiftsComponent {
   openShiftInfo(shiftInfo: TemplateRef<any>, shift: Shift) {
     this.updateModal = this.modalService.open(shiftInfo);
     this.currentShift = shift;
+    this.displayedShift = Object.assign({}, shift);
   }
 
   closeShiftInfo() {
     this.updateModal.close();
+    this.displayedShift = null;
     this.currentShift = null;
   }
 
   saveChanges() {
     this.isUpdate = false;
-    this.http.put(this.baseUrl + `api/shift/${this.currentShift.id}`, this.currentShift).subscribe(
+    this.http.put(this.baseUrl + `api/shift/${this.displayedShift.id}`, this.displayedShift).subscribe(
       value => {
         console.log(value);
         this.closeShiftInfo();
-      }, error=>console.log(error)
+      }, error => console.log(error)
     );
   }
 
   delete() {
-    this.http.delete(this.baseUrl + `api/shift/${this.currentShift.id}`).subscribe(
+    this.http.delete(this.baseUrl + `api/shift/${this.displayedShift.id}`).subscribe(
       value => {
-        delete this.shiftsList[this.shiftsList.indexOf(this.currentShift)];
+        delete this.shiftsList[this.shiftsList.indexOf(this.displayedShift)];
         this.closeShiftInfo();
-      }, error=>console.log(error)
+      }, error => console.log(error)
     );
   };
 
@@ -66,9 +69,18 @@ export class ShiftsComponent {
         this.shiftsList.push(this.newShift)
         this.createModal.close();
         this.newShift = null;
-      }, error=>console.log(error)
+      }, error => console.log(error)
     );
 
+
+  }
+
+  enableEditing() {
+    this.isUpdate = true;
+  }
+
+  cancelChanges() {
+    this.isUpdate = false;
+    this.displayedShift = Object.assign({}, this.currentShift);
   }
 }
-

@@ -18,7 +18,6 @@
   </tr>
   </tbody>
 </table>
-<!--<button type="button" class="btn btn-outline-primary" (click)="openCreateModal(createShiftModal)">Создать</button>-->
 
 <ng-template #shiftInfo>
   <div class="modal-header">
@@ -32,27 +31,51 @@
       <div class="form-group">
         <label for="shiftStart">Начало</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="shiftStart" [readOnly]="!isUpdate" name="start" [(ngModel)]="currentShift.start">
+          <input class="form-control" type="datetime-local" id="shiftStart" [readOnly]="!isUpdate" name="start"
+                 [(ngModel)]="displayedShift.start" required #start="ngModel">
+        </div>
+        <div *ngIf="start.invalid" class="alert alert-danger">
+          <div *ngIf="start.errors?.required">Поле не может быть пустым</div>
         </div>
         <label for="shiftEnd">Окончание</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="shiftEnd" [readOnly]="!isUpdate" name="end" [(ngModel)]="currentShift.end">
+          <input class="form-control" type="datetime-local" id="shiftEnd" [readOnly]="!isUpdate" name="end"
+                 [(ngModel)]="displayedShift.end" required #end="ngModel">
+        </div>
+        <div *ngIf="end.invalid" class="alert alert-danger">
+          <div *ngIf="end.errors?.required">Поле не может быть пустым</div>
         </div>
         <label for="shiftDriverFullName">Имя водителя</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="shiftDriverFullName" [readOnly]="true" name="driver" [(ngModel)]="currentShift.driver.fullName">
+          <input class="form-control" type="text" id="shiftDriverFullName" [readOnly]="true" name="driver"
+                 [(ngModel)]="displayedShift.driver.fullName" required #driver="ngModel">
+        </div>
+        <div *ngIf="driver.invalid" class="alert alert-danger">
+          <div *ngIf="driver.errors?.required">Поле не может быть пустым</div>
         </div>
         <label for="shiftVehicleName">Автомобиль</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="shiftVehicleName" [readOnly]="true" name="vehicle" [(ngModel)]="currentShift.vehicle.name">
+          <input class="form-control" type="text" id="shiftVehicleName" [readOnly]="true" name="vehicle"
+                 [(ngModel)]="displayedShift.vehicle.name" required #vehicle="ngModel">
+        </div>
+        <div *ngIf="vehicle.invalid" class="alert alert-danger">
+          <div *ngIf="vehicle.errors?.required">Поле не может быть пустым</div>
         </div>
         <label for="shiftKilometrage">Пройдено (км)</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="shiftKilometrage" [readOnly]="!isUpdate" name="kilometrage" [(ngModel)]="currentShift.kilometrage">
+          <input class="form-control" type="number" id="shiftKilometrage" [readOnly]="!isUpdate" name="kilometrage"
+                 [(ngModel)]="displayedShift.kilometrage" required [min]="0" #kilometrage="ngModel">
+        </div>
+        <div *ngIf="kilometrage.invalid" class="alert alert-danger">
+          <div *ngIf="kilometrage.errors?.required">Поле не может быть пустым</div>
         </div>
         <label for="shiftFuelConsumed">Расход топлива (л)</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="shiftFuelConsumed" [readOnly]="true" name="fuelConsumed" [(ngModel)]="currentShift.fuelConsumedLiters">
+          <input class="form-control" type="number" id="shiftFuelConsumed" [readOnly]="!isUpdate" name="fuelConsumed"
+                 [(ngModel)]="displayedShift.fuelConsumedLiters" required [min]="0" #fuelConsumed="ngModel">
+        </div>
+        <div *ngIf="kilometrage.invalid" class="alert alert-danger">
+          <div *ngIf="kilometrage.errors?.required">Поле не может быть пустым</div>
         </div>
       </div>
     </form>
@@ -61,34 +84,12 @@
     <div *ngIf="isUpdate; then ifUpdateBlock else ifNotUpdateBlock"></div>
     <ng-template #ifUpdateBlock>
       <button type="button" class="btn btn-outline-primary" (click)="saveChanges()">Сохранить</button>
-      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = false)">Отменить</button>
+      <button type="button" class="btn btn-outline-dark" (click)="cancelChanges()">Отменить</button>
     </ng-template>
     <ng-template #ifNotUpdateBlock>
-      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = true)">Редактировать</button>
+      <button type="button" class="btn btn-outline-dark" (click)="enableEditing()">Редактировать</button>
     </ng-template>
     <button type="button" class="btn btn-outline-danger" (click)="delete()">Удалить</button>
   </div>
 </ng-template>
-
-<!--<ng-template #createShiftModal let-modal>-->
-<!--  <div class="modal-header">-->
-<!--    <h4 class="modal-title">Новый водитель</h4>-->
-<!--    <button type="button" class="close" aria-label="Close" (click)="modal.close()">-->
-<!--      <span aria-hidden="true">&times;</span>-->
-<!--    </button>-->
-<!--  </div>-->
-<!--  <div class="modal-body">-->
-<!--    <form>-->
-<!--      <div class="form-group">-->
-<!--        <label for="newFullName">Полное имя</label>-->
-<!--        <div class="input-group">-->
-<!--          <input class="form-control" type="text" id="newFullName" name="fullName" [(ngModel)]="newShift.fullName">-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </form>-->
-<!--  </div>-->
-<!--  <div class="modal-footer">-->
-<!--    <button type="button" class="btn btn-outline-primary" (click)="add()">Создать</button>-->
-<!--  </div>-->
-<!--</ng-template>-->
 
