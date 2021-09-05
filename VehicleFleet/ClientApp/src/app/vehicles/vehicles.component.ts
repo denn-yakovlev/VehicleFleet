@@ -2,21 +2,21 @@
 import {HttpClient} from '@angular/common/http';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap'
 import {Vehicle} from "../vehicle";
-import {SingleDataSet} from 'ng2-charts'
+import {Label, SingleDataSet} from 'ng2-charts'
+import {NgForm} from "@angular/forms";
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.component.html'
 })
 export class VehiclesComponent {
 
+  displayedVehicle : Vehicle;
   currentVehicle : Vehicle;
   updateModal: NgbModalRef;
   createModal: NgbModalRef;
   vehiclesList: Vehicle[];
   isUpdate : boolean;
   newVehicle : Vehicle;
-
-  // @ViewChild(HTMLCanvasElement, {static:false}) chartCanvas: HTMLCanvasElement;
 
   constructor(
     @Inject('BASE_URL') private baseUrl: string,
@@ -31,16 +31,20 @@ export class VehiclesComponent {
   openVehicleInfo(vehicleInfo: TemplateRef<any>, vehicle: Vehicle) {
     this.updateModal = this.modalService.open(vehicleInfo);
     this.currentVehicle = vehicle;
+    this.displayedVehicle = Object.assign({}, vehicle);
   }
 
   closeVehicleInfo() {
     this.updateModal.close();
+    this.isUpdate = false;
     this.currentVehicle = null;
+    this.displayedVehicle = null;
   }
 
-  saveChanges() {
-    this.isUpdate = false;
-    this.http.put(this.baseUrl + `api/vehicle/${this.currentVehicle.id}`, this.currentVehicle).subscribe(
+  saveChanges(form: NgForm) {
+    if (form.invalid)
+      return;
+    this.http.put(this.baseUrl + `api/vehicle/${this.displayedVehicle.id}`, this.displayedVehicle).subscribe(
       value => {
         console.log(value);
         this.closeVehicleInfo();
@@ -48,15 +52,20 @@ export class VehiclesComponent {
     );
   }
 
-  convertBookCostByYears() : SingleDataSet
+  getChartData() : SingleDataSet
   {
-    return this.currentVehicle.bookCostByYears.map((cost) => ({x: cost.year, y: cost.cost}));
+    return this.displayedVehicle.bookCostByYears.map(cost => cost.cost);
+  }
+
+  getChartLabels() : Label
+  {
+    return this.displayedVehicle.bookCostByYears.map(cost => cost.year.toString());
   }
 
   delete() {
-    this.http.delete(this.baseUrl + `api/vehicle/${this.currentVehicle.id}`).subscribe(
+    this.http.delete(this.baseUrl + `api/vehicle/${this.displayedVehicle.id}`).subscribe(
       value => {
-        delete this.vehiclesList[this.vehiclesList.indexOf(this.currentVehicle)];
+        delete this.vehiclesList[this.vehiclesList.indexOf(this.displayedVehicle)];
         this.closeVehicleInfo();
       }, error=>console.log(error)
     );
@@ -76,6 +85,15 @@ export class VehiclesComponent {
       }, error=>console.log(error)
     );
 
+  }
+
+  enableEditing() {
+    this.isUpdate = true;
+  }
+
+  cancelChanges() {
+    this.isUpdate = false;
+    this.displayedVehicle = Object.assign({}, this.currentVehicle);
   }
 }
 

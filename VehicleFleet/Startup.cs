@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +31,10 @@ namespace VehicleFleet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
             services.AddDbContext<ApplicationDbContext>(optBuilder =>
