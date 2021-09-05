@@ -9,8 +9,6 @@ import { ChartsModule, ThemeService } from 'ng2-charts'
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DriversComponent } from "./drivers/drivers.component";
 import { ShiftsComponent } from "./shifts/shifts.component";
 import { VehiclesComponent } from "./vehicles/vehicles.component";
@@ -20,8 +18,6 @@ import { VehiclesComponent } from "./vehicles/vehicles.component";
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     DriversComponent,
     ShiftsComponent,
     VehiclesComponent,
@@ -34,8 +30,6 @@ import { VehiclesComponent } from "./vehicles/vehicles.component";
     ChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'drivers', component: DriversComponent },
       { path: 'shifts', component: ShiftsComponent },
       { path: 'vehicles', component: VehiclesComponent },
