@@ -76,7 +76,9 @@ export class VehiclesComponent {
     this.newVehicle = new Vehicle;
   }
 
-  add() {
+  add(form: NgForm) {
+    if (form.invalid)
+      return;
     this.http.post(this.baseUrl + 'api/vehicle', this.newVehicle).subscribe(
       value => {
         this.vehiclesList.push(this.newVehicle)

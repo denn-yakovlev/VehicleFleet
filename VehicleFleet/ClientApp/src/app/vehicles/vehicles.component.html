@@ -12,7 +12,7 @@
   </tr>
   </tbody>
 </table>
-<!--<button type="button" class="btn btn-outline-primary" (click)="openCreateModal(createShiftModal)">Создать</button>-->
+<button type="button" class="btn btn-outline-primary" (click)="openCreateModal(createVehicleModal)">Создать</button>
 
 <ng-template #vehicleInfo>
   <div class="modal-header">
@@ -27,20 +27,18 @@
         <label for="vehicleManufacturer">Производитель</label>
         <div class="input-group">
           <input class="form-control" type="text" id="vehicleManufacturer" [readOnly]="!isUpdate" name="manufacturer"
-                 [(ngModel)]="displayedVehicle.manufacturer" required [minlength]="'2'" #manufacturer="ngModel">
+                 [(ngModel)]="displayedVehicle.manufacturer" required #manufacturer="ngModel">
         </div>
         <div *ngIf="manufacturer.invalid" class="alert alert-danger">
-          <div *ngIf="manufacturer.errors?.required">Поле не может быть пустым</div>
-          <div *ngIf="manufacturer.errors?.minlength">Длина минимум 2 символа</div>
+          <div *ngIf="manufacturer.errors?.required" >Поле не может быть пустым</div>
         </div>
         <label for="vehicleModelName">Модель</label>
         <div class="input-group">
           <input class="form-control" type="text" id="vehicleModelName" [readOnly]="!isUpdate" name="modelName"
-                 [(ngModel)]="displayedVehicle.modelName" required [minlength]="'2'" #modelName="ngModel">
+                 [(ngModel)]="displayedVehicle.modelName" required #modelName="ngModel">
         </div>
         <div *ngIf="modelName.invalid" class="alert alert-danger">
-          <div *ngIf="modelName.errors?.required">Поле не может быть пустым</div>
-          <div *ngIf="modelName.errors?.minlength">Длина минимум 2 символа</div>
+          <div *ngIf="modelName.errors?.required" >Поле не может быть пустым</div>
         </div>
         <label for="vehicleProductionYear">Год выпуска</label>
         <div class="input-group">
@@ -123,25 +121,99 @@
   </div>
 </ng-template>
 
-<!--<ng-template #createShiftModal let-modal>-->
-<!--  <div class="modal-header">-->
-<!--    <h4 class="modal-title">Новый водитель</h4>-->
-<!--    <button type="button" class="close" aria-label="Close" (click)="modal.close()">-->
-<!--      <span aria-hidden="true">&times;</span>-->
-<!--    </button>-->
-<!--  </div>-->
-<!--  <div class="modal-body">-->
-<!--    <form>-->
-<!--      <div class="form-group">-->
-<!--        <label for="newFullName">Полное имя</label>-->
-<!--        <div class="input-group">-->
-<!--          <input class="form-control" type="text" id="newFullName" name="fullName" [(ngModel)]="newShift.fullName">-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </form>-->
-<!--  </div>-->
-<!--  <div class="modal-footer">-->
-<!--    <button type="button" class="btn btn-outline-primary" (click)="add()">Создать</button>-->
-<!--  </div>-->
-<!--</ng-template>-->
+<ng-template #createVehicleModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Новый автомобиль</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #createVehicleForm="ngForm" noValidate>
+      <div class="form-group">
+        <label for="newVehicleManufacturer">Производитель</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="newVehicleManufacturer" name="manufacturer"
+                 [(ngModel)]="newVehicle.manufacturer" required #manufacturer="ngModel">
+        </div>
+        <div *ngIf="manufacturer.invalid" class="alert alert-danger">
+          <div *ngIf="manufacturer.errors?.required" >Поле не может быть пустым</div>
+        </div>
+        <label for="newVehicleModelName">Модель</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="newVehicleModelName"  name="modelName"
+                 [(ngModel)]="newVehicle.modelName" required #modelName="ngModel">
+        </div>
+        <div *ngIf="modelName.invalid" class="alert alert-danger">
+          <div *ngIf="modelName.errors?.required" >Поле не может быть пустым</div>
+        </div>
+        <label for="newVehicleProductionYear">Год выпуска</label>
+        <div class="input-group">
+          <input class="form-control" type="number" id="newVehicleProductionYear"  name="productionYear"
+                 [(ngModel)]="newVehicle.productionYear" required [min]="1970" [max]="2021" #productionYear="ngModel">
+        </div>
+        <div *ngIf="productionYear.invalid" class="alert alert-danger">
+          <div *ngIf="productionYear.errors?.required" >Поле не может быть пустым</div>
+          <div *ngIf="productionYear.errors?.min || productionYear.errors?.max" >Некорректное значение. Допустимо: 1970..2021</div>
+        </div>
+        <label for="newVehicleEnginePower">Мощность двигателя (л.с.)</label>
+        <div class="input-group">
+          <input class="form-control" type="number" id="newVehicleEnginePower"  name="enginePower"
+                 [(ngModel)]="newVehicle.enginePowerHp" required [min]="0" #enginePower="ngModel">
+        </div>
+        <div *ngIf="enginePower.invalid" class="alert alert-danger">
+          <div *ngIf="enginePower.errors?.required" >Поле не может быть пустым</div>
+          <div *ngIf="enginePower.errors?.min">Значение не может быть менее 0</div>
+        </div>
+        <label for="newVehicleEngineVolume">Объём двигателя (л)</label>
+        <div class="input-group">
+          <input class="form-control" type="number" id="newVehicleEngineVolume"  name="engineVolume"
+                 [(ngModel)]="newVehicle.engineVolumeLiters" required [min]="0" #engineVolume="ngModel">
+        </div>
+        <div *ngIf="engineVolume.invalid" class="alert alert-danger">
+          <div *ngIf="engineVolume.errors?.required" >Поле не может быть пустым</div>
+          <div *ngIf="engineVolume.errors?.min" >Значение не может быть менее 0</div>
+        </div>
+        <label for="newVehicleGearboxType">Тип КПП</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="newVehicleGearboxType"  name="gearboxType"
+                 [(ngModel)]="newVehicle.gearboxType" required #gearboxType="ngModel">
+        </div>
+        <div *ngIf="gearboxType.invalid" class="alert alert-danger">
+          <div *ngIf="gearboxType.errors?.required" >Поле не может быть пустым</div>
+        </div>
+        <label for="newVehicleInitialCost">Первоначальная стоимость, руб.</label>
+        <div class="input-group">
+          <input class="form-control" type="number" id="newVehicleInitialCost"  name="initialCostRoubles"
+                 [(ngModel)]="newVehicle.initialCostRoubles" required [min]="0" #initialCost="ngModel">
+        </div>
+        <div *ngIf="initialCost.invalid" class="alert alert-danger">
+          <div *ngIf="initialCost.errors?.required" >Поле не может быть пустым</div>
+          <div *ngIf="initialCost.errors?.min" >Значение не может быть менее 0</div>
+        </div>
+        <label for="newVehicleKilometrage">Пробег (км)</label>
+        <div class="input-group">
+          <input class="form-control" type="number" id="newVehicleKilometrage"  name="kilometrage"
+                 [(ngModel)]="newVehicle.kilometrage" required [min]="0" #kilometrage="ngModel">
+        </div>
+        <div *ngIf="kilometrage.invalid" class="alert alert-danger">
+          <div *ngIf="kilometrage.errors?.required" >Поле не может быть пустым</div>
+          <div *ngIf="kilometrage.errors?.min" >Значение не может быть менее 0</div>
+        </div>
+        <label for="newVehicleFuelConsumption">Расход топлива (л/100км)</label>
+        <div class="input-group">
+          <input class="form-control" type="number" id="newVehicleFuelConsumption"  name="fuelConsumptionLitersPer100Km"
+                 [(ngModel)]="newVehicle.fuelConsumptionLitersPer100Km" required [min]="0" #fuelConsumption="ngModel">
+        </div>
+        <div *ngIf="fuelConsumption.invalid" class="alert alert-danger">
+          <div *ngIf="fuelConsumption.errors?.required" >Поле не может быть пустым</div>
+          <div *ngIf="fuelConsumption.errors?.min" >Значение не может быть менее 0</div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="add(createVehicleForm)">Создать</button>
+  </div>
+</ng-template>
 
