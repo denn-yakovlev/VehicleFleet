@@ -24,15 +24,15 @@
   <div class="modal-body">
     <form>
       <div class="form-group">
-          <label for="fullName">Полное имя</label>
+        <label for="fullName">Полное имя</label>
         <div class="input-group">
           <input class="form-control" type="text" id="fullName" [readOnly]="!isUpdate" name="fullName"
                  [(ngModel)]="displayedDriver.fullName" required [minlength]="'5'" #fullName="ngModel">
         </div>
         <div *ngIf="fullName.invalid" class="alert alert-danger">
-        <div *ngIf="fullName.errors?.required">Поле не может быть пустым</div>
-        <div *ngIf="fullName.errors?.minlength">Длина минимум 5 символов</div>
-      </div>
+          <div *ngIf="fullName.errors?.required">Поле не может быть пустым</div>
+          <div *ngIf="fullName.errors?.minlength">Длина минимум 5 символов</div>
+        </div>
       </div>
     </form>
   </div>
@@ -61,7 +61,12 @@
       <div class="form-group">
         <label for="newFullName">Полное имя</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="newFullName" name="fullName" [(ngModel)]="newDriver.fullName">
+          <input class="form-control" type="text" id="newFullName" name="fullName"
+                 [(ngModel)]="newDriver.fullName" required [minlength]="'5'" #fullName="ngModel">
+        </div>
+        <div *ngIf="fullName.invalid" class="alert alert-danger">
+          <div *ngIf="fullName.errors?.required">Поле не может быть пустым</div>
+          <div *ngIf="fullName.errors?.minlength">Длина минимум 5 символов</div>
         </div>
       </div>
     </form>
