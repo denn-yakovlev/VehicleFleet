@@ -17,13 +17,13 @@ namespace VehicleFleet.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly IKilometrageCalculator _kilometrageCalculator;
+        private readonly KilometrageCalculator _kilometrageCalculator;
         private readonly VehicleBookCostCalculator _vehicleBookCostCalculator;
 
         public VehicleController(
             ApplicationDbContext dbContext, 
             IMapper mapper, 
-            IKilometrageCalculator kilometrageCalculator, 
+            KilometrageCalculator kilometrageCalculator, 
             VehicleBookCostCalculator vehicleBookCostCalculator
         ) {
             _dbContext = dbContext;

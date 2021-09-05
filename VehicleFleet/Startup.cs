@@ -39,9 +39,15 @@ namespace VehicleFleet
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
             services.AddDbContext<ApplicationDbContext>(optBuilder =>
             {
-                var connection = new NpgsqlConnection(
-                    "Host=localhost;Database=vehicle_fleet;Username=postgres;Password=password"
-                    );
+                // var connection = new NpgsqlConnection(
+                //     "Host=localhost;Database=vehicle_fleet;Username=postgres;Password=password"
+                //     );
+                var connectionStringBuilder = new NpgsqlConnectionStringBuilder(
+                    Configuration.GetConnectionString("VehicleFleetDatabase")
+                ) {
+                    Password = Configuration["DbPassword"]
+                };
+                var connection = new NpgsqlConnection(connectionStringBuilder.ConnectionString);
                 optBuilder.UseNpgsql(connection);
             });
             services.AddSingleton(_ => new ExpenseContext
@@ -57,8 +63,9 @@ namespace VehicleFleet
                 ServiceDescriptor.Scoped<IExpenseCalculator, DepreciationExpenseCalculator>(), 
                 ServiceDescriptor.Scoped<IExpenseCalculator, MaintenanceExpenseCalculator>(), 
                 ServiceDescriptor.Scoped<IExpenseCalculator, InsuranceExpenseCalculator>(), 
+                ServiceDescriptor.Scoped<IExpenseCalculator, TaxExpenseCalculator>(), 
             });
-            services.AddScoped<IKilometrageCalculator, KilometrageCalculator>();
+            services.AddScoped<KilometrageCalculator>();
             services.AddScoped<VehicleBookCostCalculator>();
             services.AddSingleton(CreateMapper());
         }

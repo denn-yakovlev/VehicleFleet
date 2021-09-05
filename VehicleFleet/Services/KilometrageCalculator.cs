@@ -5,7 +5,7 @@ using VehicleFleet.Entities;
 
 namespace VehicleFleet.Services
 {
-    public class KilometrageCalculator : IKilometrageCalculator
+    public class KilometrageCalculator
     {
         private readonly ApplicationDbContext _dbContext;
 
