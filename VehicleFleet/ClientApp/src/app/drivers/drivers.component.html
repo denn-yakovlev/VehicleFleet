@@ -26,8 +26,13 @@
       <div class="form-group">
           <label for="fullName">Полное имя</label>
         <div class="input-group">
-          <input class="form-control" type="text" id="fullName" [readOnly]="!isUpdate" name="fullName" [(ngModel)]="currentDriver.fullName">
+          <input class="form-control" type="text" id="fullName" [readOnly]="!isUpdate" name="fullName"
+                 [(ngModel)]="displayedDriver.fullName" required [minlength]="'5'" #fullName="ngModel">
         </div>
+        <div *ngIf="fullName.invalid" class="alert alert-danger">
+        <div *ngIf="fullName.errors?.required">Поле не может быть пустым</div>
+        <div *ngIf="fullName.errors?.minlength">Длина минимум 5 символов</div>
+      </div>
       </div>
     </form>
   </div>
@@ -35,10 +40,10 @@
     <div *ngIf="isUpdate; then ifUpdateBlock else ifNotUpdateBlock"></div>
     <ng-template #ifUpdateBlock>
       <button type="button" class="btn btn-outline-primary" (click)="saveChanges()">Сохранить</button>
-      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = false)">Отменить</button>
+      <button type="button" class="btn btn-outline-dark" (click)="cancelChanges()">Отменить</button>
     </ng-template>
     <ng-template #ifNotUpdateBlock>
-      <button type="button" class="btn btn-outline-dark" (click)="(isUpdate = true)">Редактировать</button>
+      <button type="button" class="btn btn-outline-dark" (click)="enableEditing()">Редактировать</button>
     </ng-template>
     <button type="button" class="btn btn-outline-danger" (click)="delete()">Удалить</button>
   </div>

@@ -10,6 +10,7 @@ import {Driver} from "../driver";
 })
 export class DriversComponent {
 
+  displayedDriver : Driver;
   currentDriver : Driver;
   updateModal: NgbModalRef;
   createModal: NgbModalRef;
@@ -30,16 +31,18 @@ export class DriversComponent {
   openDriverInfo(driverInfo: TemplateRef<any>, driver: Driver) {
     this.updateModal = this.modalService.open(driverInfo);
     this.currentDriver = driver;
+    this.displayedDriver = Object.assign({}, driver);
   }
 
   closeDriverInfo() {
     this.updateModal.close();
     this.currentDriver = null;
+    this.displayedDriver = null;
   }
 
   saveChanges() {
     this.isUpdate = false;
-    this.http.put(this.baseUrl + `api/driver/${this.currentDriver.id}`, this.currentDriver).subscribe(
+    this.http.put(this.baseUrl + `api/driver/${this.displayedDriver.id}`, this.displayedDriver).subscribe(
       value => {
         console.log(value);
         this.closeDriverInfo();
@@ -48,9 +51,9 @@ export class DriversComponent {
   }
 
   delete() {
-    this.http.delete(this.baseUrl + `api/driver/${this.currentDriver.id}`).subscribe(
+    this.http.delete(this.baseUrl + `api/driver/${this.displayedDriver.id}`).subscribe(
       value => {
-        delete this.driversList[this.driversList.indexOf(this.currentDriver)];
+        delete this.driversList[this.driversList.indexOf(this.displayedDriver)];
         this.closeDriverInfo();
       }, error=>console.log(error)
     );
@@ -70,6 +73,15 @@ export class DriversComponent {
       }, error=>console.log(error)
     );
 
+  }
+
+  enableEditing() {
+    this.isUpdate = true;
+  }
+
+  cancelChanges() {
+    this.isUpdate = false;
+    this.displayedDriver = Object.assign({}, this.currentDriver);
   }
 }
 
